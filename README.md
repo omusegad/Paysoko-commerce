@@ -1,1 +1,1 @@
-# paystack-commerce
+# Paysoko-commerce
