@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+    environment:
+      - CACHE_DRIVER=redis
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=ecommerce
+      - DB_USERNAME=root
+      - DB_PASSWORD=secret
+
+  db:
+    image: mysql:8
+    volumes:
+      - dbdata:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ecommerce
+      MYSQL_ROOT_PASSWORD: secret
+    networks:
+      - app-network
+
+  redis:
+    image: redis:6.2
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  dbdata:
