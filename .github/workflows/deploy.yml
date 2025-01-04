@@ -24,7 +24,10 @@ jobs:
            echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
            echo "  StrictHostKeyChecking no" >> ~/.ssh/config  # Automatically accept host key
 
-
+      - name: Add SSH key to known hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
+          
       - name: Deploy application
         run: |
           ssh droplet 'cd /path/to/app && git pull && docker-compose up -d --build'
