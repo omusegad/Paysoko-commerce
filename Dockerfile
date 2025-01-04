@@ -1,32 +1,33 @@
 FROM php:8.1-fpm
 
-# Install system dependencies
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
-    libpq-dev \
-    zip \
-    unzip \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    redis \
-    && docker-php-ext-install pdo pdo_mysql
+    zip \
+    unzip
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # Set working directory
 WORKDIR /var/www
 
+# Copy composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 # Copy existing application directory contents
-COPY . .
+COPY . /var/www
 
 # Install dependencies
 RUN composer install
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www
+RUN chmod -R 755 /var/www/storage
 
-# Expose port
-EXPOSE 9000
+EXPOSE 8000
+CMD php artisan serve --host=0.0.0.0 --port=8000
