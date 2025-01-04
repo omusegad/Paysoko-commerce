@@ -34,14 +34,14 @@ jobs:
         run: |
           ssh droplet << 'EOF'
             # Navigate to the app directory (replace with the correct path)
-            if [ ! -d "/var/www/app" ]; then
+            if [ ! -d "/home/paysoko.app" ]; then
               # Clone the repo if it doesn't exist
-              git clone https://github.com/omusegad/Paysoko-commerce.git /var/www/app
+              git clone https://github.com/omusegad/Paysoko-commerce.git /home/paysoko.app
             else
               # Pull the latest changes if the repo already exists
-              cd /var/www/app && git pull origin main
+              cd /home/paysoko.app && git pull origin main
             fi
 
             # Build and run the containers
-            cd /var/www/app && docker-compose up -d --build
+            cd /home/paysoko.app && docker-compose up -d --build
           EOF

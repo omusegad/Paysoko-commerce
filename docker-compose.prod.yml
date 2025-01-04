@@ -51,7 +51,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: ecommerce
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: G5Nk4VykcUw
     networks:
       - app-network
 
@@ -65,13 +65,13 @@ services:
 
   # Nginx reverse proxy
   nginx:
-    image: nginx:stable-alpine
+    image: nginx:latest
     container_name: nginx_server
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - .:/var/www
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - app-network
     depends_on:
