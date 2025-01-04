@@ -19,7 +19,7 @@ jobs:
           echo "${{ secrets.DO_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           echo "Host droplet" >> ~/.ssh/config
-          echo "  HostName your_droplet_ip" >> ~/.ssh/config
+          echo "  HostName 137.184.159.110" >> ~/.ssh/config
           echo "  User root" >> ~/.ssh/config
           echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
 
