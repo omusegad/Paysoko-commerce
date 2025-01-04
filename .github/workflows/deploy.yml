@@ -10,24 +10,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up SSH
+      # Set up SSH
+      - name: Set up SSH keys
         run: |
-           mkdir -p ~/.ssh
-           echo "${{ secrets.DO_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-           chmod 600 ~/.ssh/id_rsa
-           echo "Host droplet" >> ~/.ssh/config
-           echo "  HostName ${{ secrets.DROPLET_IP }}" >> ~/.ssh/config  # Ensure you replace with correct IP
-           echo "  User root" >> ~/.ssh/config  # Replace 'root' if you are using a different user
-           echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
-           echo "  StrictHostKeyChecking no" >> ~/.ssh/config  # Automatically accept host key
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DO_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "Host droplet" >> ~/.ssh/config
+          echo "  HostName ${{ secrets.DROPLET_IP }}" >> ~/.ssh/config
+          echo "  User root" >> ~/.ssh/config
+          echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
 
-      - name: Add SSH key to known hosts
-        run: |
-          ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
+      # Add the DigitalOcean Droplet to the known hosts
+      - name: Add droplet to known hosts
+        run: ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
 
-      - name: Deploy application
+      # Deploy to DigitalOcean Droplet
+      - name: Deploy app to DigitalOcean
         run: |
-          ssh droplet 'cd /var/www/app && git pull && docker-compose up -d --build'
+          ssh droplet << 'EOF'
+            # Navigate to the app directory (replace with the correct path)
+            if [ ! -d "/var/www/app" ]; then
+              # Clone the repo if it doesn't exist
+              git clone https://github.com/omusegad/Paysoko-commerce.git /var/www/app
+            else
+              # Pull the latest changes if the repo already exists
+              cd /var/www/app && git pull origin main
+            fi
+
+            # Build and run the containers
+            cd /var/www/app && docker-compose up -d --build
+          EOF
