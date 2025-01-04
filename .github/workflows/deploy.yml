@@ -27,7 +27,7 @@ jobs:
       - name: Add SSH key to known hosts
         run: |
           ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts
-          
+
       - name: Deploy application
         run: |
-          ssh droplet 'cd /path/to/app && git pull && docker-compose up -d --build'
+          ssh droplet 'cd /var/www/app && git pull && docker-compose up -d --build'
