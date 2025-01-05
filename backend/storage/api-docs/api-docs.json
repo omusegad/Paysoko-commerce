@@ -1,0 +1,646 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Order API",
+        "description": "API Documentation for Order Management",
+        "termsOfService": "https://www.example.com/terms",
+        "contact": {
+            "name": "Support Team",
+            "email": "support@example.com",
+            "url": "https://www.example.com/contact"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://interviews.test/api",
+            "description": "Development API"
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register a new user",
+                "description": "Registers a new user and returns an authentication token",
+                "operationId": "daa91862204df8c9b2e5e8b24aae6618",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "your-jwt-token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login a user",
+                "description": "Logs in the user and returns an authentication token",
+                "operationId": "a67f672dd0794a3cefddb0051a2e2f44",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "your-jwt-token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout a user",
+                "description": "Logs out the user by deleting all their tokens",
+                "operationId": "6fa87e6ae9c508a3f355b05d51c4b335",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/forgot-password": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Send password reset link",
+                "operationId": "3248de4bc2b2d21ed5da95da2b1a8ea1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "omusegad@gmail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Reset link sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Reset link sent."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to send reset link",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to send reset link."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reset-password": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Reset user password",
+                "operationId": "df4b6e79ca42f2790ec4fd7a8f0a9444",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "token",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "token": {
+                                        "type": "string",
+                                        "example": "reset-token-example"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "omusegad@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "newpassword123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "newpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password reset successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Password successfully reset."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to reset password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to reset password."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cart": {
+            "get": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "View cart items",
+                "description": "Retrieves all items currently in the cart",
+                "operationId": "viewCart",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Cart is empty"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "product_code": {
+                                                        "type": "string",
+                                                        "example": "Pineapple_Inc_KE_8aztdcizacca"
+                                                    },
+                                                    "product_name": {
+                                                        "type": "string",
+                                                        "example": "Floveme Power Bank 2S 20000mAh"
+                                                    },
+                                                    "product_quantity": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "product_price": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": 2000
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to fetch cart"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Add item to cart",
+                "description": "Adds a product to the Redis cart",
+                "operationId": "addToCart",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "product_code": {
+                                        "type": "string",
+                                        "example": "Pineapple_Inc_KE_8aztdcizacca"
+                                    },
+                                    "product_name": {
+                                        "type": "string",
+                                        "example": "Floveme Power Bank 2S 20000mAh"
+                                    },
+                                    "product_quantity": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "product_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 2000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item added to cart",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item added to cart"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to add item to cart",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Failed to add item to cart"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Clear the cart",
+                "description": "Removes all items currently in the cart",
+                "operationId": "clearCart",
+                "responses": {
+                    "200": {
+                        "description": "Cart cleared successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cart cleared"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to clear the cart"
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "get": {
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Retrieve all orders",
+                "description": "Returns a list of all orders",
+                "operationId": "getAllOrders",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "order_id": {
+                                                "type": "string",
+                                                "example": "RONDO-ABCDEFGH12"
+                                            },
+                                            "items": {
+                                                "type": "string",
+                                                "example": "[{'product_code': '...', ...}]"
+                                            },
+                                            "total": {
+                                                "type": "number",
+                                                "format": "float",
+                                                "example": 2000
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Place an order",
+                "description": "Creates a new order based on items in the Redis cart",
+                "operationId": "placeOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "product_code": {
+                                                    "type": "string",
+                                                    "example": "Pineapple_Inc_KE_8aztdcizacca"
+                                                },
+                                                "product_name": {
+                                                    "type": "string",
+                                                    "example": "Floveme Power Bank 2S 20000mAh"
+                                                },
+                                                "product_quantity": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "product_price": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 2000
+                                                },
+                                                "product_total": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 2000
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order placed successfully"
+                    },
+                    "400": {
+                        "description": "Cart is empty",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cart is empty"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "cart",
+            "description": "cart"
+        },
+        {
+            "name": "orders",
+            "description": "orders"
+        }
+    ]
+}

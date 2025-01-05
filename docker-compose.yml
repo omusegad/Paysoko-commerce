@@ -2,9 +2,11 @@ services:
   # Laravel application
   app:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     container_name: paysoko_app
+    env_file:
+      - .env
     volumes:
       - .:/var/www
     networks:

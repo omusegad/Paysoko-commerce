@@ -14,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up SSH
+      # Set up SSH keys for accessing the DigitalOcean droplet
       - name: Set up SSH keys
         run: |
           mkdir -p ~/.ssh
@@ -45,7 +45,7 @@ jobs:
               chmod +x /usr/local/bin/docker-compose
             fi
 
-            # Set up the app directory
+            # Set up the app directory on the Droplet
             if [ ! -d "/home/paysoko.app/.git" ]; then
               echo "Cloning repository into /home/paysoko.app..."
               rm -rf /home/paysoko.app
@@ -57,5 +57,5 @@ jobs:
 
             # Build and run the containers using Docker Compose
             echo "Starting application using Docker Compose..."
-            cd /home/paysoko.app && docker-compose up -d --build
+            cd /home/paysoko.app && docker-compose -f /home/paysoko.app/docker-compose.yml up -d --build
           EOF
