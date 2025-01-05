@@ -46,6 +46,7 @@ services:
     tty: true
     depends_on:
       - app
+      - redis_cache
 
   # MySQL database
   db:
