@@ -32,7 +32,10 @@ export default function LoginPage() {
 
     const onSubmit = async (data: { email: string; password: string }) => {
         try {
-            const response = await api.post("/auth/login", data);
+            const response = await api.post(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
+                data
+            );
             localStorage.setItem("token", response.data.token);
             router.push("/dashboard");
         } catch (err: any) {
@@ -100,7 +103,10 @@ export default function LoginPage() {
                 </button>
                 <p className="text-gray-500 text-sm mt-6 text-center">
                     Don't have an account?{" "}
-                    <a href="#" className="text-blue-500 hover:underline">
+                    <a
+                        href="/register"
+                        className="text-blue-500 hover:underline"
+                    >
                         Sign up
                     </a>
                 </p>
