@@ -13,17 +13,17 @@ services:
     networks:
       - app-network
     environment:
-      - APP_ENV=local
-      - APP_DEBUG=true
+      - APP_ENV=${APP_ENV}
+      - APP_DEBUG=${APP_DEBUG}
       - APP_KEY=${APP_KEY}
-      - CACHE_DRIVER=redis
-      - SESSION_DRIVER=redis
+      - CACHE_DRIVER=${CACHE_DRIVER}
+      - SESSION_DRIVER=${SESSION_DRIVER}
       - DB_CONNECTION=${DB_CONNECTION}
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=ecommerce
-      - DB_USERNAME=root
-      - DB_PASSWORD=secret
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_HOST}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_PASSWORD}
+      - DB_PASSWORD=${DB_PASSWORD}
     depends_on:
       - db
       - redis
