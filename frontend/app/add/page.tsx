@@ -51,7 +51,6 @@ const addToCartApi = async (product: Product): Promise<Product> => {
 };
 
 export default function OrdersPage() {
-    const [cart, setCart] = useState<Product[]>([]);
 
     // React Query mutation hook
     const mutation = useMutation({
@@ -68,8 +67,6 @@ export default function OrdersPage() {
 
     // Handle adding product to cart
     const handleAddToCart = (product: Product) => {
-        // Update local cart state for UI feedback
-        setCart((prevCart) => [...prevCart, product]);
 
         // Call API using react-query mutation
         mutation.mutate(product);

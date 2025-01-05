@@ -128,7 +128,7 @@ export default function DashboardPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((order) => {
+                            {data?.map((order) => {
                                 const items: Item[] = JSON.parse(order.items); // Parse items field
                                 let rowIndex = 1;
                                 return (

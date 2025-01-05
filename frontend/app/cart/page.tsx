@@ -19,7 +19,7 @@ const fetchCartItems = async (): Promise<CartItem[]> => {
         );
         return response.data || [];
     } catch (error: any) {
-        throw new Error("Error fetching cart items");
+        throw new Error("Error fetching cart items" + error);
     }
 };
 

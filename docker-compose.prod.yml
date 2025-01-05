@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: paysoko_app
     env_file:
-      - .env.production
+      - env
     volumes:
       - ./backend:/var/www
     networks:

@@ -167,6 +167,11 @@ The application should now be running at http://localhost:3000.
 - Order Management:
 - View submitted orders.
 
+## How to setup in your local machine
+- Have docker Installed
+- clone https://github.com/omusegad/Paysoko-commerce.git
+- cd into "your directory" run "docker-compose build"
+
 ## Troubleshooting
 If Redis is not running, ensure it is installed and started by running redis-server in the terminal.
 If you encounter issues with the API routes, make sure the Laravel application is correctly configured to handle CORS and session management.

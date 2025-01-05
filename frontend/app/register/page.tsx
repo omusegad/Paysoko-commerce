@@ -25,7 +25,7 @@ const schema = yup.object({
         .min(6, "Password should be at least 6 characters long"),
     password_confirmation: yup
         .string()
-        .oneOf([yup.ref("password"), null], "Passwords must match")
+        .oneOf([yup.ref("password")], "Passwords must match")
         .required("Password confirmation is required"),
 });
 
@@ -65,7 +65,7 @@ export default function RegisterPage() {
         resolver: yupResolver(schema),
     });
 
-    const { mutateAsync, isLoading } = useMutation({
+    const { mutateAsync } = useMutation({
         mutationFn: registerUser,
         onSuccess: (data) => {
             setSuccess(data.message);
@@ -86,27 +86,27 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen">
+        <div className="flex items-center justify-center min-h-screen">
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md border border-gray-200"
+                className="w-full max-w-md p-8 bg-white border border-gray-200 rounded-lg shadow-lg"
             >
-                <h1 className="text-3xl font-extrabold text-gray-800 mb-6 text-center">
+                <h1 className="mb-6 text-3xl font-extrabold text-center text-gray-800">
                     Register
                 </h1>
                 {error && (
-                    <p className="text-red-500 text-sm font-semibold mb-4 text-center">
+                    <p className="mb-4 text-sm font-semibold text-center text-red-500">
                         {error}
                     </p>
                 )}
                 {success && (
-                    <p className="text-green-500 text-sm font-semibold mb-4 text-center">
+                    <p className="mb-4 text-sm font-semibold text-center text-green-500">
                         {success}
                     </p>
                 )}
 
                 <div className="mb-6">
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block mb-2 font-medium text-gray-700">
                         Name
                     </label>
                     <input
@@ -118,14 +118,14 @@ export default function RegisterPage() {
                         {...register("name")}
                     />
                     {errors.name && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-sm text-red-500">
                             {errors.name.message}
                         </p>
                     )}
                 </div>
 
                 <div className="mb-6">
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block mb-2 font-medium text-gray-700">
                         Email
                     </label>
                     <input
@@ -137,14 +137,14 @@ export default function RegisterPage() {
                         {...register("email")}
                     />
                     {errors.email && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-sm text-red-500">
                             {errors.email.message}
                         </p>
                     )}
                 </div>
 
                 <div className="mb-6">
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block mb-2 font-medium text-gray-700">
                         Password
                     </label>
                     <input
@@ -158,14 +158,14 @@ export default function RegisterPage() {
                         {...register("password")}
                     />
                     {errors.password && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-sm text-red-500">
                             {errors.password.message}
                         </p>
                     )}
                 </div>
 
                 <div className="mb-6">
-                    <label className="block text-gray-700 font-medium mb-2">
+                    <label className="block mb-2 font-medium text-gray-700">
                         Confirm Password
                     </label>
                     <input
@@ -179,7 +179,7 @@ export default function RegisterPage() {
                         {...register("password_confirmation")}
                     />
                     {errors.password_confirmation && (
-                        <p className="text-red-500 text-sm">
+                        <p className="text-sm text-red-500">
                             {errors.password_confirmation.message}
                         </p>
                     )}
@@ -187,13 +187,12 @@ export default function RegisterPage() {
 
                 <button
                     type="submit"
-                    disabled={isLoading}
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold text-lg shadow-md transition duration-300 ease-in-out"
+                    className="w-full py-3 text-lg font-semibold text-white transition duration-300 ease-in-out bg-blue-500 rounded-lg shadow-md hover:bg-blue-600"
                 >
-                    {isLoading ? "Registering..." : "Register"}
+                    {"Register"}
                 </button>
 
-                <p className="text-gray-500 text-sm mt-6 text-center">
+                <p className="mt-6 text-sm text-center text-gray-500">
                     Already have an account?{" "}
                     <a href="/login" className="text-blue-500 hover:underline">
                         Login
