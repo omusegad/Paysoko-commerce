@@ -7,9 +7,10 @@ services:
       dockerfile: Dockerfile
     container_name: paysoko_app
     env_file:
-      - env
+      - .env
     volumes:
-      - ./backend:/var/www
+       - ./backend:/var/www
+    working_dir: /var/www
     networks:
       - app-network
     environment:
@@ -40,13 +41,12 @@ services:
       - "3000:3000"
     networks:
       - app-network
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost/api
+    env_file:
+      - ./frontend/.env.local
     stdin_open: true
     tty: true
     depends_on:
       - app
-      - redis_cache
 
   # MySQL database
   db:
@@ -56,8 +56,8 @@ services:
       - dbdata:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_DATABASE: ecommerce
-      MYSQL_ROOT_PASSWORD: G5Nk4VykcUw
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     networks:
       - app-network
 

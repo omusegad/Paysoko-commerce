@@ -1,28 +1,23 @@
-FROM node:alpine
+# Use Node.js LTS version as the base image
+FROM node:18-alpine
 
-# Set working directory
-WORKDIR /usr/src/app
+# Set the working directory inside the container
+WORKDIR /app
 
-# Install necessary dependencies for Next.js build
-RUN apk add --no-cache \
-    python3 \
-    make \
-    g++ \
-    libpng-dev \
-    freetype-dev \
-    libjpeg-turbo-dev \
-    zip \
-    git
-
-# Copy and install dependencies
+# Copy package.json and package-lock.json
 COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
-# Copy application files
+# Copy the rest of the application code
 COPY . .
 
-# Suppress Node.js deprecation warnings and run build
-RUN NODE_NO_WARNINGS=1 npm run build
+# Build the Next.js app
+RUN npm run build
 
+# Expose the port the app runs on
 EXPOSE 3000
-CMD ["npm", "start"]
+
+# Start the Next.js app in production mode
+CMD ["npm", "run", "start"]

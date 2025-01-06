@@ -1,36 +1,31 @@
+# Dockerfile for Laravel Backend
 FROM php:8.1-fpm
 
-# Install dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
+    curl \
     libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
+    libonig-dev \
+    libxml2-dev \
     zip \
-    git \
-    libzip-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql zip
-
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy project files
-COPY . .
+    unzip
 
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
-# Install PHP dependencies
+# Set working directory
+WORKDIR /var/www
+
+# Copy application code
+COPY . .
+
+# Install Laravel dependencies
 RUN composer install
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Expose port 8000
-EXPOSE 8000
-
-# Start PHP server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Expose port 9000 and start PHP-FPM server
+EXPOSE 9000
+CMD ["php-fpm"]
