@@ -90,57 +90,20 @@ Fetches and displays the user's order history from the backend (MySQL).
 Allows users to view cart items stored in Redis and add items to the cart.
 
 ## Installation & Setup
-1. Backend (Laravel)
+1. Backend (Laravel) - ( Installed laravel on "backend") folder
+2. Frontend (Next.js) - ( Installed next on "frontend") folder
+3. setup Docker files for each
+4. setup docker-compose file with mysql, redis, backend and frontend
+5. setup git workflow 
 
-```Install Dependencies:
-
-bash
-
-Copy code
-
-composer install
-
-Set up .env file:
-
-bash
-
-Copy code
-
-cp .env.example .env
-
-Generate Application Key:
-
-bash
-
-Copy code
-
-php artisan key:generate
-```
 ## Configure Redis:
-Make sure Redis is installed and running on your local machine. You can verify it with:
+Make sure Redis is installed and running on your local machine by :
 
-```bash
-Copy code
-redis-server
-Migrate Database:
-bash
-Copy code
-php artisan migrate
-Run the Laravel Development Server:
-bash
-Copy code
-php artisan serve
-2. Frontend (Next.js)
-Install Dependencies:
-bash
-Copy code
-npm install
-Run the Next.js Development Server:
-bash
-Copy code
-npm run dev
-The application should now be running at http://localhost:3000.
-```
+- install redis server in your machinine
+- Start the server by running command : redis-server
+- Test if the server in up  by running : ping
+
+
 ## API Endpoints
 - User Authentication
 - POST /api/auth/login - Log in a user.
@@ -148,6 +111,7 @@ The application should now be running at http://localhost:3000.
 - POST /api/auth/logout - Log out the current user.
 - POST /api/auth/forgot-password - Send password reset link.
 - PUT /api/auth/reset-password - Reset user password.
+- 
 ## Cart Management
 - POST /api/cart/add - Add item to cart (stored in Redis).
 - GET /api/cart - View cart items (from Redis).
